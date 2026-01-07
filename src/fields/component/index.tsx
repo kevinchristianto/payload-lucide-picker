@@ -91,6 +91,7 @@ type IconSelectFieldProps = {
   path: string;
   field: {
     label: string;
+    required?: boolean;
   };
 }
 
@@ -122,7 +123,7 @@ export const IconSelectField: React.FC<IconSelectFieldProps> = (props) => {
     field
   } = props;
 
-  const label = field.label;
+  const { label, required } = field;
   
   const { value = DEFAULT_ICON_CONFIG, setValue } = useField<LucideIconPickerType>({ path });
   
@@ -230,21 +231,10 @@ export const IconSelectField: React.FC<IconSelectFieldProps> = (props) => {
   }, [setValue, value.name]);
 
   return (
-    <div style={{
-      width: '100%',
-      fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif'
-    }}>
-      <label style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '6px',
-        marginBottom: '6px',
-        color: 'var(--theme-elevation-800)',
-        fontSize: '12px',
-        fontWeight: 500
-      }}>
-        <Icon name="palette" size={14} style={{color: 'var(--theme-elevation-500)'}} />
+    <div className='w-full field-type text'>
+      <label className='field-label'>
         {label}
+        {required && <span className="required">*</span>}
       </label>
       <div style={{
         display: 'flex',
@@ -472,14 +462,17 @@ export const IconSelectField: React.FC<IconSelectFieldProps> = (props) => {
                           : 'var(--theme-text, #333)',
                         fontSize: '12px',
                         cursor: 'pointer',
-                        transition: 'all 0.1s ease-in-out'
+                        transition: 'all 0.1s ease-in-out',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px'
                       }}
                       onClick={() => handleConfigChange('color', colorOption.value)}
                     >
                       {colorOption.value === 'currentColor' ? (
                         <>
                           <Icon name="palette" size={14} />
-                          <span>currentColor</span>
+                          <span>Current Color</span>
                         </>
                       ) : (
                         <div style={{
@@ -583,6 +576,9 @@ export const IconSelectField: React.FC<IconSelectFieldProps> = (props) => {
                     type="checkbox"
                     checked={value.absoluteStrokeWidth}
                     onChange={(e) => handleConfigChange('absoluteStrokeWidth', e.target.checked)}
+                    style={{
+                      all: 'revert',
+                    }}
                   />
                   Absolute Stroke Width
                 </label>
@@ -600,7 +596,10 @@ export const IconSelectField: React.FC<IconSelectFieldProps> = (props) => {
                     color: 'var(--theme-elevation-800, #525252)',
                     fontSize: '12px',
                     cursor: 'pointer',
-                    transition: 'all 0.1s ease-in-out'
+                    transition: 'all 0.1s ease-in-out',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px'
                   }}
                 >
                   <Icon name="rotate-ccw" size={14} />
